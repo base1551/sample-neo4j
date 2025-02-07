@@ -1,0 +1,21 @@
+services:
+  neo4j:
+    image: neo4j:4.2.5
+    platform: linux/amd64
+    container_name: my_neo4j
+    ports:
+      - 7474:7474
+      - 7687:7687
+    volumes:
+      - ./neo4j/data:/data
+    environment:
+      - NEO4J_AUTH=neo4j/docker
+
+  python:
+    build: ./python_docker
+    container_name: my_python3
+    volumes:
+      - ./src:/app/src
+    tty: true
+    depends_on:
+      - neo4j
